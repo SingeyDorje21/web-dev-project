@@ -60,7 +60,7 @@ li {
 }
 
 li.completed {
-    background-color: #d4edda;
+    background-color: #0ed83d;
     color: green;
     text-decoration: line-through;
 }
