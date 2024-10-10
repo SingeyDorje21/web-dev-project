@@ -1,80 +1,24 @@
-let db;
-
-document.addEventListener('DOMContentLoaded', () => {
-    openDatabase();
-    loadTasks();
-});
-
-function openDatabase() {
-    let request = indexedDB.open('taskDB', 1);
-
-    request.onupgradeneeded = function(e) {
-        db = e.target.result;
-        let objectStore = db.createObjectStore('tasks', { keyPath: 'id', autoIncrement: true });
-        objectStore.createIndex('text', 'text', { unique: false });
-        objectStore.createIndex('completed', 'completed', { unique: false });
-    };
-
-    request.onsuccess = function(e) {
-        db = e.target.result;
-        console.log('Database opened successfully');
-    };
-
-    request.onerror = function(e) {
-        console.log('Error opening database:', e.target.errorCode);
-    };
-}
+document.addEventListener('DOMContentLoaded', loadTasks);
 
 function addTask() {
     let taskInput = document.getElementById('taskInput');
+    let taskList = document.getElementById('taskList');
+
     if (taskInput.value.trim() === "") {
         alert("Please enter a task!");
         return;
     }
 
-    let newTask = {
-        text: taskInput.value,
+    const taskText = taskInput.value;
+    const task = {
+        text: taskText,
         completed: false
     };
 
-    let transaction = db.transaction(['tasks'], 'readwrite');
-    let objectStore = transaction.objectStore('tasks');
-    let request = objectStore.add(newTask);
+    createTaskElement(task);
+    saveTaskToLocalStorage(task);
 
-    request.onsuccess = function() {
-        createTaskElement(newTask);
-        taskInput.value = ""; // Clear the input field
-    };
-
-    transaction.oncomplete = function() {
-        console.log('Task added successfully');
-    };
-
-    transaction.onerror = function() {
-        console.log('Error adding task');
-    };
-}
-
-function loadTasks() {
-    let taskList = document.getElementById('taskList');
-    taskList.innerHTML = '';  // Clear the current list
-
-    let transaction = db.transaction(['tasks'], 'readonly');
-    let objectStore = transaction.objectStore('tasks');
-    let request = objectStore.openCursor();
-
-    request.onsuccess = function(e) {
-        let cursor = e.target.result;
-        if (cursor) {
-            console.log("Task loaded:", cursor.value); // Log the loaded task
-            createTaskElement(cursor.value);  // Render the task
-            cursor.continue();
-        }
-    };
-
-    request.onerror = function(e) {
-        console.log('Error loading tasks:', e.target.errorCode);
-    };
+    taskInput.value = "";
 }
 
 function createTaskElement(task) {
@@ -103,10 +47,8 @@ function createTaskElement(task) {
             taskTextElement.textContent = inputField.value;
             li.replaceChild(taskTextElement, inputField);
             editBtn.textContent = "Edit";
-
-            // Update task in database
             task.text = inputField.value;
-            updateTask(task);
+            updateLocalStorage();
         };
     };
     li.appendChild(editBtn);
@@ -127,25 +69,36 @@ function createTaskElement(task) {
             completeBtn.className = "complete-btn";
             task.completed = false;
         }
-
-        // Update task completion status in database
-        updateTask(task);
+        updateLocalStorage();
     };
     li.appendChild(completeBtn);
 
-    taskList.appendChild(li);  // Append the task to the task list
+    taskList.appendChild(li);
 }
 
-function updateTask(task) {
-    let transaction = db.transaction(['tasks'], 'readwrite');
-    let objectStore = transaction.objectStore('tasks');
-    let request = objectStore.put(task);
+// Save tasks to localStorage
+function saveTaskToLocalStorage(task) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
-    request.onsuccess = function() {
-        console.log('Task updated successfully');
-    };
+// Load tasks from localStorage
+function loadTasks() {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => {
+        createTaskElement(task);
+    });
+}
 
-    transaction.onerror = function() {
-        console.log('Error updating task');
-    };
+// Update localStorage when tasks are edited or completed
+function updateLocalStorage() {
+    let taskList = document.querySelectorAll('#taskList li');
+    let tasks = [];
+    taskList.forEach(li => {
+        let taskText = li.querySelector('span').textContent;
+        let completed = li.classList.contains('completed');
+        tasks.push({ text: taskText, completed });
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
