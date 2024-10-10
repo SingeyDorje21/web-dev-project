@@ -61,6 +61,6 @@ li {
 
 li.completed {
     background-color: #d4edda;
-    color: #155724;
+    color: green;
     text-decoration: line-through;
 }
