@@ -43,7 +43,7 @@ function addTask() {
 
     request.onsuccess = function() {
         createTaskElement(newTask);
-        taskInput.value = "";
+        taskInput.value = ""; // Clear the input field
     };
 
     transaction.oncomplete = function() {
@@ -66,7 +66,8 @@ function loadTasks() {
     request.onsuccess = function(e) {
         let cursor = e.target.result;
         if (cursor) {
-            createTaskElement(cursor.value);
+            console.log("Task loaded:", cursor.value); // Log the loaded task
+            createTaskElement(cursor.value);  // Render the task
             cursor.continue();
         }
     };
@@ -132,7 +133,7 @@ function createTaskElement(task) {
     };
     li.appendChild(completeBtn);
 
-    taskList.appendChild(li);
+    taskList.appendChild(li);  // Append the task to the task list
 }
 
 function updateTask(task) {
@@ -148,4 +149,3 @@ function updateTask(task) {
         console.log('Error updating task');
     };
 }
-
