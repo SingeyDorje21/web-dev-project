@@ -1,140 +1,74 @@
-/* General Styles */
+/* Basic styles for the to-do list */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f3f4f6;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
 }
-
-.container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    max-width: 90%;
-    text-align: center;
-}
-
 h1 {
+    text-align: center;
     color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
 }
-
-/* Input Styles */
-.input-container {
-    display: flex;
-    margin-bottom: 20px;
-}
-
 #taskInput {
-    flex: 1;
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#addTaskBtn {
     padding: 10px 15px;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border 0.3s;
-}
-
-#taskInput:focus {
-    border-color: #28a745;
-    outline: none;
-}
-
-button {
+    margin-left: 10px;
+    border: none;
     background-color: #28a745;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px;
-    transition: background-color 0.3s;
 }
-
-button:hover {
+#addTaskBtn:hover {
     background-color: #218838;
 }
-
-/* Task List Styles */
 ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
 }
-
 li {
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s;
+    padding: 10px;
+    background: #fff;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
-
-li.completed {
-    background-color: #d4edda;
-    color: #155724;
+li.completed span {
     text-decoration: line-through;
+    color: #888;
 }
-
-li button {
-    background-color: #007bff;
-    padding: 8px 12px;
+button {
     border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 10px;
 }
-
-li button:hover {
+.complete-btn {
+    background-color: #007bff;
+    color: white;
+}
+.complete-btn:hover {
     background-color: #0056b3;
 }
-
-li button.complete-btn {
-    background-color: #28a745;
-}
-
-li button.complete-btn:hover {
-    background-color: #218838;
-}
-
-li button.completed-btn {
+.completed-btn {
     background-color: #6c757d;
+    color: white;
 }
-
-li button.completed-btn:hover {
+.completed-btn:hover {
     background-color: #5a6268;
 }
-
-li input {
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 10px;
 }
-
-li input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-/* Smooth transitions */
-li {
-    transition: transform 0.2s;
-}
-
-li:hover {
-    transform: translateY(-5px);
+.delete-btn:hover {
+    background-color: #c82333;
 }

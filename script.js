@@ -1,24 +1,32 @@
-document.addEventListener('DOMContentLoaded', loadTasks);
+document.addEventListener('DOMContentLoaded', () => {
+    loadTasks();
+});
 
 function addTask() {
     let taskInput = document.getElementById('taskInput');
-    let taskList = document.getElementById('taskList');
-
     if (taskInput.value.trim() === "") {
         alert("Please enter a task!");
         return;
     }
 
-    const taskText = taskInput.value;
-    const task = {
-        text: taskText,
+    // Create a new task object
+    let newTask = {
+        text: taskInput.value,
         completed: false
     };
 
-    createTaskElement(task);
-    saveTaskToLocalStorage(task);
+    // Get existing tasks from localStorage or initialize an empty array
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push(newTask); // Add the new task to the array
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Save back to localStorage
 
-    taskInput.value = "";
+    createTaskElement(newTask); // Add task to the display
+    taskInput.value = ""; // Clear the input field
+}
+
+function loadTasks() {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => createTaskElement(task)); // Render all tasks
 }
 
 function createTaskElement(task) {
@@ -33,26 +41,6 @@ function createTaskElement(task) {
     }
     li.appendChild(taskTextElement);
 
-    // Add Edit button
-    let editBtn = document.createElement('button');
-    editBtn.textContent = "Edit";
-    editBtn.onclick = function() {
-        let inputField = document.createElement('input');
-        inputField.value = taskTextElement.textContent;
-        li.replaceChild(inputField, taskTextElement);
-
-        // Change edit button to save button
-        editBtn.textContent = "Save";
-        editBtn.onclick = function() {
-            taskTextElement.textContent = inputField.value;
-            li.replaceChild(taskTextElement, inputField);
-            editBtn.textContent = "Edit";
-            task.text = inputField.value;
-            updateLocalStorage();
-        };
-    };
-    li.appendChild(editBtn);
-
     // Add Complete button
     let completeBtn = document.createElement('button');
     completeBtn.textContent = task.completed ? "Completed" : "Complete";
@@ -62,43 +50,38 @@ function createTaskElement(task) {
             li.classList.add('completed');
             completeBtn.textContent = "Completed";
             completeBtn.className = "completed-btn";
-            task.completed = true;
-        } else {
-            li.classList.remove('completed');
-            completeBtn.textContent = "Complete";
-            completeBtn.className = "complete-btn";
-            task.completed = false;
+            task.completed = true; // Update completed status
+            createDeleteButton(li); // Add delete button
         }
-        updateLocalStorage();
+        updateTaskInLocalStorage(task); // Update task in localStorage
     };
     li.appendChild(completeBtn);
 
-    taskList.appendChild(li);
+    taskList.appendChild(li);  // Append the task to the task list
 }
 
-// Save tasks to localStorage
-function saveTaskToLocalStorage(task) {
+function createDeleteButton(taskItem) {
+    // Create Delete button
+    let deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
+    deleteBtn.className = "delete-btn";
+    deleteBtn.onclick = function() {
+        deleteTask(taskItem);
+    };
+    taskItem.appendChild(deleteBtn); // Add delete button to the task item
+}
+
+function deleteTask(taskItem) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.push(task);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    // Remove the task item from the list and localStorage
+    taskItem.remove();
+    tasks = tasks.filter(task => task.text !== taskItem.querySelector('span').textContent);
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Update localStorage
 }
 
-// Load tasks from localStorage
-function loadTasks() {
+function updateTaskInLocalStorage(task) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.forEach(task => {
-        createTaskElement(task);
-    });
-}
-
-// Update localStorage when tasks are edited or completed
-function updateLocalStorage() {
-    let taskList = document.querySelectorAll('#taskList li');
-    let tasks = [];
-    taskList.forEach(li => {
-        let taskText = li.querySelector('span').textContent;
-        let completed = li.classList.contains('completed');
-        tasks.push({ text: taskText, completed });
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    // Update the task's completion status
+    tasks = tasks.map(t => t.text === task.text ? task : t);
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Save back to localStorage
 }
