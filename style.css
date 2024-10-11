@@ -1,12 +1,21 @@
 /* Basic styles for the to-do list */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #3475d0;
     padding: 20px;
 }
 h1 {
     text-align: center;
     color: #333;
+}
+.button-add {
+    background-color: #05ff4c;
+}
+.button-add:hover {
+    background-color: #28a745;
+}
+.button-add::after {
+    text-transform:calc();
 }
 #taskInput {
     width: 300px;
@@ -24,7 +33,7 @@ h1 {
     cursor: pointer;
 }
 #addTaskBtn:hover {
-    background-color: #218838;
+    background-color: #e46525;
 }
 ul {
     list-style-type: none;
@@ -42,7 +51,7 @@ li {
 }
 li.completed span {
     text-decoration: line-through;
-    color: #888;
+    color: #5ce237;
 }
 button {
     border: none;
@@ -63,6 +72,9 @@ button {
 }
 .completed-btn:hover {
     background-color: #5a6268;
+}
+.complete-btn::after {
+    text-decoration: dashed;
 }
 .delete-btn {
     background-color: #dc3545;

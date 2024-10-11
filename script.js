@@ -41,34 +41,57 @@ function createTaskElement(task) {
     }
     li.appendChild(taskTextElement);
 
-    // Add Complete button
+    // Add Complete/Uncomplete button
     let completeBtn = document.createElement('button');
     completeBtn.textContent = task.completed ? "Completed" : "Complete";
     completeBtn.className = task.completed ? "completed-btn" : "complete-btn";
+    
+    // Toggle between completed and uncompleted states
     completeBtn.onclick = function() {
-        if (!li.classList.contains('completed')) {
+        if (li.classList.contains('completed')) {
+            // Uncomplete the task
+            li.classList.remove('completed');
+            completeBtn.textContent = "Complete";
+            completeBtn.className = "complete-btn";
+            task.completed = false; // Update completed status
+            
+            // Remove the delete button if it exists
+            let deleteBtn = li.querySelector('.delete-btn');
+            if (deleteBtn) {
+                deleteBtn.remove();
+            }
+        } else {
+            // Complete the task
             li.classList.add('completed');
             completeBtn.textContent = "Completed";
             completeBtn.className = "completed-btn";
             task.completed = true; // Update completed status
-            createDeleteButton(li); // Add delete button
+            createDeleteButton(li); // Create delete button when task is completed
         }
         updateTaskInLocalStorage(task); // Update task in localStorage
     };
     li.appendChild(completeBtn);
 
+    // Add delete button if task is already completed
+    if (task.completed) {
+        createDeleteButton(li);
+    }
+
     taskList.appendChild(li);  // Append the task to the task list
 }
 
 function createDeleteButton(taskItem) {
-    // Create Delete button
-    let deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
-    deleteBtn.className = "delete-btn";
-    deleteBtn.onclick = function() {
-        deleteTask(taskItem);
-    };
-    taskItem.appendChild(deleteBtn); // Add delete button to the task item
+    // Only create a delete button if it doesn't already exist
+    if (!taskItem.querySelector('.delete-btn')) {
+        // Create Delete button
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = function() {
+            deleteTask(taskItem);
+        };
+        taskItem.appendChild(deleteBtn); // Add delete button to the task item
+    }
 }
 
 function deleteTask(taskItem) {
