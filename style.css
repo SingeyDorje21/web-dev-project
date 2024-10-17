@@ -1,6 +1,6 @@
 /* Overall Body Styling */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f0f2f5;
     margin: 0;
     display: flex;
@@ -8,35 +8,58 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-image: url(bg.jpeg);
 }
 
-/* Centering the Main Content */
-#mainContent {
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
+/* Layout: Split the page into two sections */
+.content-wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
     background-color: #fff;
-    padding: 30px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* Styling the Title */
-h1 {
-    font-size: 2.5rem;
+/* Left Section for Information */
+.info {
+    width: 40%;
+    padding: 30px;
+    background-color: #f7f7f7;
+    border-right: 1px solid #ddd;
+}
+
+.info h1 {
+    font-size: 2rem;
     color: #333;
+}
+
+.info p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Right Section for Task Adder and List */
+.task-container {
+    width: 60%;
+    padding: 30px;
+    text-align: center;
+}
+
+/* Input and Add Task Button Styling */
+.input-container {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-/* Styling the Input and Add Button */
 #taskInput {
     width: 60%;
-    padding: 10px;
+    padding: 15px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-right: 10px;
     transition: all 0.3s ease;
 }
 
@@ -45,23 +68,23 @@ h1 {
     outline: none;
 }
 
-#addTaskBtn {
-    padding: 10px 20px;
-    font-size: 1rem;
+/* Make Add Button Larger and More Visible */
+.button-add {
+    padding: 15px 30px;
+    font-size: 1.1rem;
     background-color: #28a745;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 5px;
-    margin-left: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#addTaskBtn:hover {
+.button-add:hover {
     background-color: #218838;
 }
 
-/* Styling Task List */
+/* Task List Styling */
 ul {
     list-style-type: none;
     padding: 0;
@@ -76,9 +99,6 @@ li {
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInUp 0.5s forwards;
 }
 
 /* Completed Task Style */
@@ -92,7 +112,7 @@ li.completed span {
 }
 
 /* Complete and Delete Buttons */
-button.complete-btn, button.delete-btn {
+.complete-btn, .delete-btn {
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
@@ -122,40 +142,9 @@ button.complete-btn, button.delete-btn {
 .delete-btn {
     background-color: #dc3545;
     color: white;
-    display: none;
     margin-left: 10px;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
-}
-
-/* Animation for Task Appearance */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hover Effect for Tasks */
-li:hover {
-    transform: scale(1.02);
-    transition: transform 0.3s ease;
-}
-/* Ensure delete button is hidden initially */
-.delete-btn {
-    background-color: #dc3545;
-    color: white;
-    display: none; /* Hidden by default */
-    margin-left: 10px;
-}
-
-/* Delete button will be visible when the task is completed */
-li.completed .delete-btn {
-    display: inline-block; /* Show delete button for completed tasks */
 }

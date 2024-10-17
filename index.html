@@ -8,18 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="info">
-        <h1>Test sub</h1>
-    </div>
-    <div class="container">
-        <h1>To-Do List</h1>
-        <div class="input-container">
-            <input type="text" id="taskInput" placeholder="Enter a new task">
-            <button onclick="addTask()" class="button-add">Add</button>
+        <div class="content-wrapper">
+            <div class="info">
+                <h1>About This Website</h1>
+                <p>This website allows you to create and manage your tasks easily. You can add, mark as complete, and delete tasks. Your tasks are saved locally, so they'll be here when you return.</p>
+            </div>
+            <div class="task-container">
+                <h1>To-Do List</h1>
+                <div class="input-container">
+                    <input type="text" id="taskInput" placeholder="Enter a new task">
+                    <button onclick="addTask()" class="button-add">Add Task</button>
+                </div>
+                <ul id="taskList"></ul>
+            </div>
         </div>
-        <ul id="taskList"></ul>
-    </div>
-
-    <script src="script.js"></script>
+    
+        <script src="script.js"></script>
+    
 </body>
 </html>
