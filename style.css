@@ -8,6 +8,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    background-image: url(bg.jpeg);
 }
 
 /* Layout: Split the page into two sections */
@@ -15,8 +16,7 @@ body {
     display: flex;
     width: 90%;
     max-width: 1200px;
-    background-color: #fff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -25,18 +25,18 @@ body {
 .info {
     width: 40%;
     padding: 30px;
-    background-color: #f7f7f7;
-    border-right: 1px solid #ddd;
+    /*background-color: #f7f7f7;
+    border-right: 1px solid #ddd;*/
 }
 
 .info h1 {
     font-size: 2rem;
-    color: #333;
+    color: #141414;
 }
 
 .info p {
-    font-size: 1rem;
-    color: #666;
+    font-size: 1.35rem;
+    color: #0f0f0f;
 }
 
 /* Right Section for Task Adder and List */
@@ -68,7 +68,6 @@ body {
     outline: none;
 }
 
-/* Make Add Button Larger and More Visible */
 .button-add {
     padding: 15px 30px;
     font-size: 1.1rem;
@@ -84,7 +83,7 @@ body {
     background-color: #218838;
 }
 
-/* Task List Styling */
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -95,13 +94,13 @@ li {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    background: #f9f9f9;
+    background: #faf6f6;
     margin-bottom: 10px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* Completed Task Style */
+
 li.completed {
     background-color: #d4edda;
 }
@@ -111,7 +110,6 @@ li.completed span {
     color: #888;
 }
 
-/* Complete and Delete Buttons */
 .complete-btn, .delete-btn {
     padding: 5px 10px;
     border-radius: 5px;
