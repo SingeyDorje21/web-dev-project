@@ -1,14 +1,15 @@
 /* Overall Body Styling */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5;
+    background-image: url('bg.jpeg');
+    background-size: cover;
+    background-position: center;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-image: url(bg.jpeg);
 }
 
 /* Layout: Split the page into two sections */
@@ -16,34 +17,36 @@ body {
     display: flex;
     width: 90%;
     max-width: 1200px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent background for the wrapper */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
 }
 
-/* Left Section for Information */
+/* Container for Info Section */
 .info {
     width: 40%;
     padding: 30px;
-    /*background-color: #f7f7f7;
-    border-right: 1px solid #ddd;*/
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+    border-right: 1px flex rgba(255, 255, 255, 1);
+    backdrop-filter: blur(8px); /* Blur for the background */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
 }
 
-.info h1 {
-    font-size: 2rem;
-    color: #141414;
-}
-
-.info p {
-    font-size: 1.35rem;
-    color: #0f0f0f;
-}
-
-/* Right Section for Task Adder and List */
+/* Task Container Section */
 .task-container {
     width: 60%;
     padding: 30px;
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
     text-align: center;
+    backdrop-filter: blur(8px); /* Blur for the background */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+}
+
+/* Text Styling */
+h1, p, input, span {
+    color: #333; /* Darker text color for better contrast */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow to make text pop */
 }
 
 /* Input and Add Task Button Styling */
@@ -61,6 +64,7 @@ body {
     border-radius: 5px;
     margin-right: 10px;
     transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque to improve readability */
 }
 
 #taskInput:focus {
@@ -68,6 +72,7 @@ body {
     outline: none;
 }
 
+/* Make Add Button Larger and More Visible */
 .button-add {
     padding: 15px 30px;
     font-size: 1.1rem;
@@ -83,7 +88,7 @@ body {
     background-color: #218838;
 }
 
-
+/* Task List Styling */
 ul {
     list-style-type: none;
     padding: 0;
@@ -94,15 +99,17 @@ li {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    background: #faf6f6;
+    background: rgba(249, 249, 249, 0.7); /* Make the task items a bit more opaque */
     margin-bottom: 10px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px); /* Reduced blur for the task items */
+    -webkit-backdrop-filter: blur(4px);
 }
 
-
+/* Completed Task Style */
 li.completed {
-    background-color: #d4edda;
+    background-color: rgba(212, 237, 218, 0.7); /* Slightly more opaque */
 }
 
 li.completed span {
@@ -110,6 +117,7 @@ li.completed span {
     color: #888;
 }
 
+/* Complete and Delete Buttons */
 .complete-btn, .delete-btn {
     padding: 5px 10px;
     border-radius: 5px;
