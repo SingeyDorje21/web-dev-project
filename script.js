@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function addTask() {
     let taskInput = document.getElementById('taskInput');
+    let dueDateInput = document.getElementById('dueDateInput');
+
     if (taskInput.value.trim() === "") {
         alert("Please enter a task!");
         return;
@@ -11,7 +13,8 @@ function addTask() {
 
     let newTask = {
         text: taskInput.value,
-        completed: false
+        completed: false,
+        dueDate: dueDateInput.value  // Store due date
     };
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -20,11 +23,12 @@ function addTask() {
 
     createTaskElement(newTask);
     taskInput.value = "";
+    dueDateInput.value = "";  // Clear the date input after adding task
 }
 
 function loadTasks() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.forEach(task => createTaskElement(task)); 
+    tasks.forEach(task => createTaskElement(task));
 }
 
 function createTaskElement(task) {
@@ -38,32 +42,52 @@ function createTaskElement(task) {
     }
     li.appendChild(taskTextElement);
 
+    // Show due date
+    if (task.dueDate) {
+        let dueDateElement = document.createElement('small');
+        dueDateElement.textContent = ` (Due: ${task.dueDate})`;
+        taskTextElement.appendChild(dueDateElement);
+
+        // Check if task is overdue
+        checkIfOverdue(task, li);
+    }
+
+    // Complete Button
     let completeBtn = document.createElement('button');
     completeBtn.textContent = task.completed ? "Completed" : "Complete";
     completeBtn.className = task.completed ? "completed-btn" : "complete-btn";
-    
+
     completeBtn.onclick = function() {
-        if (li.classList.contains('completed')) {
+        task.completed = !task.completed;
+        if (task.completed) {
+            li.classList.add('completed');
+            completeBtn.textContent = "Completed";
+            completeBtn.className = "completed-btn";
+            createDeleteButton(li);
+        } else {
             li.classList.remove('completed');
             completeBtn.textContent = "Complete";
             completeBtn.className = "complete-btn";
-            task.completed = false;
-
             let deleteBtn = li.querySelector('.delete-btn');
             if (deleteBtn) {
                 deleteBtn.remove();
             }
-        } else {
-            li.classList.add('completed');
-            completeBtn.textContent = "Completed";
-            completeBtn.className = "completed-btn";
-            task.completed = true;
-            createDeleteButton(li);
         }
         updateTaskInLocalStorage(task);
     };
     li.appendChild(completeBtn);
 
+    // Edit Button
+    let editBtn = document.createElement('button');
+    editBtn.textContent = "Edit";
+    editBtn.className = "edit-btn";  // Use correct class
+
+    editBtn.onclick = function() {
+        editTask(li, task);
+    };
+    li.appendChild(editBtn);
+
+    // If task is completed, add delete button
     if (task.completed) {
         createDeleteButton(li);
     }
@@ -87,11 +111,45 @@ function deleteTask(taskItem) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     taskItem.remove();
     tasks = tasks.filter(task => task.text !== taskItem.querySelector('span').textContent);
-    localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function updateTaskInLocalStorage(task) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks = tasks.map(t => t.text === task.text ? task : t);
     localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function editTask(taskItem, task) {
+    let taskTextElement = taskItem.querySelector('span');
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.value = task.text;
+    taskItem.replaceChild(input, taskTextElement);
+
+    input.onblur = function() {
+        task.text = input.value;
+        updateTaskInLocalStorage(task);
+        taskItem.replaceChild(taskTextElement, input);
+        taskTextElement.textContent = task.text;
+
+        // Update the display of the due date if it was changed
+        if (task.dueDate) {
+            let dueDateElement = taskTextElement.querySelector('small');
+            if (dueDateElement) {
+                dueDateElement.textContent = ` (Due: ${task.dueDate})`;
+            }
+        }
+    };
+
+    input.focus(); // Automatically focus the input for editing
+}
+
+function checkIfOverdue(task, taskItem) {
+    let currentDate = new Date();
+    let dueDate = new Date(task.dueDate);
+    
+    if (dueDate && dueDate < currentDate && !task.completed) {
+        taskItem.classList.add('overdue');  // Add overdue class if task is overdue
+    }
 }

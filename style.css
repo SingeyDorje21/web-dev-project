@@ -17,7 +17,7 @@ body {
     display: flex;
     width: 90%;
     max-width: 1200px;
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent background for the wrapper */
+    background-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
@@ -27,26 +27,26 @@ body {
 .info {
     width: 40%;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.3);
     border-right: 1px flex rgba(255, 255, 255, 1);
-    backdrop-filter: blur(8px); /* Blur for the background */
-    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 /* Task Container Section */
 .task-container {
     width: 60%;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.3);
     text-align: center;
-    backdrop-filter: blur(8px); /* Blur for the background */
-    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 /* Text Styling */
 h1, p, input, span {
-    color: #333; /* Darker text color for better contrast */
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow to make text pop */
+    color: #333;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Input and Add Task Button Styling */
@@ -56,7 +56,7 @@ h1, p, input, span {
     margin-bottom: 20px;
 }
 
-#taskInput {
+#taskInput, #dueDateInput {
     width: 60%;
     padding: 15px;
     font-size: 1rem;
@@ -64,10 +64,10 @@ h1, p, input, span {
     border-radius: 5px;
     margin-right: 10px;
     transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque to improve readability */
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
-#taskInput:focus {
+#taskInput:focus, #dueDateInput:focus {
     border-color: #007bff;
     outline: none;
 }
@@ -99,17 +99,17 @@ li {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    background: rgba(249, 249, 249, 0.7); /* Make the task items a bit more opaque */
+    background: rgba(249, 249, 249, 0.7);
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4px); /* Reduced blur for the task items */
+    backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
 }
 
 /* Completed Task Style */
 li.completed {
-    background-color: rgba(212, 237, 218, 0.7); /* Slightly more opaque */
+    background-color: rgba(212, 237, 218, 0.7);
 }
 
 li.completed span {
@@ -117,8 +117,40 @@ li.completed span {
     color: #888;
 }
 
-/* Complete and Delete Buttons */
-.complete-btn, .delete-btn {
+/* Task Editing Input */
+li.editing input {
+    width: 80%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* Overdue Task Style */
+li.overdue {
+    background-color: rgba(255, 99, 71, 0.7); /* Light red */
+}
+
+li.overdue span {
+    color: #fff;
+}
+
+/* Priority Task Styles */
+li.low-priority {
+    border-left: 5px solid green;
+}
+
+li.medium-priority {
+    border-left: 5px solid yellow;
+}
+
+li.high-priority {
+    border-left: 5px solid red;
+}
+
+/* Complete and Edit Buttons */
+.complete-btn, .edit-btn, .delete-btn {
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
@@ -127,15 +159,16 @@ li.completed span {
     transition: all 0.3s ease;
 }
 
-.complete-btn {
+.complete-btn, .edit-btn {
     background-color: #007bff;
     color: white;
 }
 
-.complete-btn:hover {
+.complete-btn:hover, .edit-btn:hover {
     background-color: #0056b3;
 }
 
+/* Completed Task Button */
 .completed-btn {
     background-color: #6c757d;
     color: white;
@@ -143,6 +176,17 @@ li.completed span {
 
 .completed-btn:hover {
     background-color: #5a6268;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
 }
 
 .delete-btn {
