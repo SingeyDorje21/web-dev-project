@@ -14,7 +14,7 @@ function addTask() {
     let newTask = {
         text: taskInput.value,
         completed: false,
-        dueDate: dueDateInput.value  // Store due date
+        dueDate: dueDateInput.value
     };
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -23,7 +23,7 @@ function addTask() {
 
     createTaskElement(newTask);
     taskInput.value = "";
-    dueDateInput.value = "";  // Clear the date input after adding task
+    dueDateInput.value = ""; 
 }
 
 function loadTasks() {
@@ -42,17 +42,14 @@ function createTaskElement(task) {
     }
     li.appendChild(taskTextElement);
 
-    // Show due date
     if (task.dueDate) {
         let dueDateElement = document.createElement('small');
         dueDateElement.textContent = ` (Due: ${task.dueDate})`;
         taskTextElement.appendChild(dueDateElement);
 
-        // Check if task is overdue
         checkIfOverdue(task, li);
     }
 
-    // Complete Button
     let completeBtn = document.createElement('button');
     completeBtn.textContent = task.completed ? "Completed" : "Complete";
     completeBtn.className = task.completed ? "completed-btn" : "complete-btn";
@@ -77,17 +74,15 @@ function createTaskElement(task) {
     };
     li.appendChild(completeBtn);
 
-    // Edit Button
     let editBtn = document.createElement('button');
     editBtn.textContent = "Edit";
-    editBtn.className = "edit-btn";  // Use correct class
+    editBtn.className = "edit-btn";
 
     editBtn.onclick = function() {
         editTask(li, task);
     };
     li.appendChild(editBtn);
 
-    // If task is completed, add delete button
     if (task.completed) {
         createDeleteButton(li);
     }
@@ -133,7 +128,6 @@ function editTask(taskItem, task) {
         taskItem.replaceChild(taskTextElement, input);
         taskTextElement.textContent = task.text;
 
-        // Update the display of the due date if it was changed
         if (task.dueDate) {
             let dueDateElement = taskTextElement.querySelector('small');
             if (dueDateElement) {
@@ -142,7 +136,7 @@ function editTask(taskItem, task) {
         }
     };
 
-    input.focus(); // Automatically focus the input for editing
+    input.focus();
 }
 
 function checkIfOverdue(task, taskItem) {
@@ -150,6 +144,6 @@ function checkIfOverdue(task, taskItem) {
     let dueDate = new Date(task.dueDate);
     
     if (dueDate && dueDate < currentDate && !task.completed) {
-        taskItem.classList.add('overdue');  // Add overdue class if task is overdue
+        taskItem.classList.add('overdue');
     }
 }
