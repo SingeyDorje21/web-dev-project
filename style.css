@@ -84,7 +84,29 @@ h1, p, input, span {
 ul {
     list-style-type: none;
     padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
 }
+
+ul::-webkit-scrollbar {
+    width: 8px; 
+}
+
+ul::-webkit-scrollbar-track {
+    background: rgba(200, 200, 200, 0.3);
+    border-radius: 5px;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5); 
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+}
+
+ul::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 100, 100, 0.7);
+}
+
 
 li {
     display: flex;
