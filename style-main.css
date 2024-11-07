@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    background-image:url(images/bg.jpeg) ;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the items horizontally */
+    max-width: 800px; /* Set a max width for the container */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Optional: Add some padding */
+    opacity: 0.7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.card {
+    background-color: white;
+    border: 2px solid transparent; /* Start with a transparent border */
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
+}
+.card:hover {
+    transform: scale(1.05); /* Scale effect on hover */
+    border-color: #007BFF; /* Change border color on hover */
+}
+a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    display: block; /* Make the anchor fill the card */
+    height: 100%; /* Ensure it covers the whole card */
+    width: 100%; /* Ensure it covers the whole card */
+}
+a:hover {
+    text-decoration: underline;
+}
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
