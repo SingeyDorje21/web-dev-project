@@ -1,9 +1,13 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Poppins', sans-serif;
+    background-image: url(/web-dev-project/images/bg.jpeg);
+    background-size: cover;
+    background-position: center;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
     padding: 20px;
-    background-image:url(images/bg.jpeg) ;
 }
 h1 {
     text-align: center;
@@ -16,7 +20,7 @@ h1 {
     max-width: 800px; /* Set a max width for the container */
     margin: 0 auto; /* Center the container */
     padding: 20px; /* Optional: Add some padding */
-    opacity: 0.7;
+    opacity: 0.9;
     position: absolute;
     top: 50%;
     left: 50%;
