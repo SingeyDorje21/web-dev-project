@@ -7,11 +7,12 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    background-image: url(/web-dev-project/images/bg3.jpeg);
 }
 
 h1 {
     margin-bottom: 20px;
-    color: #333;
+    color: #e32424;
 }
 
 .converter {
@@ -22,6 +23,7 @@ h1 {
     margin: 15px;
     width: 300px;
     text-align: center;
+    opacity: 0.8;
 }
 
 input[type="number"] {
