@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Unit Converter</h1>
+
+    <div class="converter">
+        <h2>Meters to Feet</h2>
+        <input type="number" id="meters" placeholder="Enter meters">
+        <button onclick="convertToFeet()">Convert</button>
+        <div id="metersResult" class="conversionResult"></div>
+    </div>
+
+    <div class="converter">
+        <h2>Kilometers to Miles</h2>
+        <input type="number" id="kilometers" placeholder="Enter kilometers">
+        <button onclick="convertToMiles()">Convert</button>
+        <div id="kilometersResult" class="conversionResult"></div>
+    </div>
+
+    <div class="converter">
+        <h2>Celsius to Fahrenheit</h2>
+        <input type="number" id="celsius" placeholder="Enter Celsius">
+        <button onclick="convertToFahrenheit()">Convert</button>
+        <div id="celsiusResult" class="conversionResult"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
