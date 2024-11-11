@@ -130,6 +130,11 @@ li.completed span {
     color: #888;
 }
 
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
 li.editing input {
     width: 80%;
     padding: 10px;
@@ -204,4 +209,44 @@ li.high-priority {
 
 .delete-btn:hover {
     background-color: #c82333;
+}
+
+.task-text {
+    padding: 2px 5px;
+    border-radius: 3px;
+    min-width: 50px;
+    display: inline-block;
+}
+
+.task-text:focus {
+    outline: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.completed {
+    color: #888;
+    text-decoration: line-through;
+}
+
+/* Optional: Style for better editing experience */
+[contenteditable="true"] {
+    cursor: text;
+}
+
+[contenteditable="true"]:hover {
+    background-color: #f5f5f5;
+}
+
+.edit-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
 }

@@ -1,149 +1,148 @@
-document.addEventListener('DOMContentLoaded', () => {
-    loadTasks();
-});
+document.addEventListener('DOMContentLoaded', loadTasks);
+
+function loadTasks() {
+    try {
+        const taskList = document.getElementById('taskList');
+        let tasks = [];
+        
+        try {
+            const storedTasks = localStorage.getItem('tasks');
+            tasks = storedTasks ? JSON.parse(storedTasks) : [];
+            
+            if (!Array.isArray(tasks)) {
+                tasks = [];
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+        } catch (e) {
+            console.error('Error parsing tasks from localStorage:', e);
+            tasks = [];
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        taskList.innerHTML = ''; // Clear existing list
+        tasks.forEach((task, index) => {
+            const li = document.createElement('li');
+            li.setAttribute('data-index', index);
+            li.innerHTML = `
+                <span class="task-text ${task.completed ? 'completed' : ''}" 
+                      contenteditable="true" 
+                      onblur="updateTask(${index}, this.textContent)"
+                      ${task.completed ? 'style="text-decoration: line-through;"' : ''}>${task.text}</span>
+                <span class="due-date">${task.dueDate}</span>
+                <button onclick="toggleComplete(${index})" class="complete-btn">
+                    ${task.completed ? 'Undo' : 'Complete'}
+                </button>
+                <button onclick="deleteTask(${index})" class="delete-btn">Delete</button>
+            `;
+            taskList.appendChild(li);
+        });
+    } catch (e) {
+        console.error('Error loading tasks:', e);
+    }
+}
+
+function updateTask(index, newText) {
+    try {
+        if (newText.trim() !== '') {
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks[index].text = newText.trim();
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+    } catch (e) {
+        console.error('Error updating task:', e);
+    }
+}
+
+function toggleComplete(index) {
+    try {
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks[index].completed = !tasks[index].completed;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        // Update the DOM directly instead of reloading all tasks
+        const taskSpan = document.querySelector(`li[data-index="${index}"] .task-text`);
+        if (taskSpan) {
+            taskSpan.classList.toggle('completed');
+            taskSpan.style.textDecoration = tasks[index].completed ? 'line-through' : 'none';
+            const completeBtn = taskSpan.parentElement.querySelector('.complete-btn');
+            completeBtn.textContent = tasks[index].completed ? 'Undo' : 'Complete';
+        }
+    } catch (e) {
+        console.error('Error toggling task completion:', e);
+    }
+}
 
 function addTask() {
-    let taskInput = document.getElementById('taskInput');
-    let dueDateInput = document.getElementById('dueDateInput');
+    const taskInput = document.getElementById('taskInput');
+    const dueDateInput = document.getElementById('dueDateInput');
+    const taskList = document.getElementById('taskList');
 
-    if (taskInput.value.trim() === "") {
-        alert("Please enter a task!");
+    if (taskInput.value.trim() === '') {
+        alert('Please enter a task!');
         return;
     }
 
-    let newTask = {
-        text: taskInput.value,
-        completed: false,
-        dueDate: dueDateInput.value
-    };
-
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.push(newTask);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    createTaskElement(newTask);
-    taskInput.value = "";
-    dueDateInput.value = ""; 
-}
-
-function loadTasks() {
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.forEach(task => createTaskElement(task));
-}
-
-function createTaskElement(task) {
-    let taskList = document.getElementById('taskList');
-    let li = document.createElement('li');
-
-    let taskTextElement = document.createElement('span');
-    taskTextElement.textContent = task.text;
-    if (task.completed) {
-        li.classList.add('completed');
-    }
-    li.appendChild(taskTextElement);
-
-    if (task.dueDate) {
-        let dueDateElement = document.createElement('small');
-        dueDateElement.textContent = ` (Due: ${task.dueDate})`;
-        taskTextElement.appendChild(dueDateElement);
-
-        checkIfOverdue(task, li);
-    }
-
-    let completeBtn = document.createElement('button');
-    completeBtn.textContent = task.completed ? "Completed" : "Complete";
-    completeBtn.className = task.completed ? "completed-btn" : "complete-btn";
-
-    completeBtn.onclick = function() {
-        task.completed = !task.completed;
-        if (task.completed) {
-            li.classList.add('completed');
-            completeBtn.textContent = "Completed";
-            completeBtn.className = "completed-btn";
-            createDeleteButton(li);
-        } else {
-            li.classList.remove('completed');
-            completeBtn.textContent = "Complete";
-            completeBtn.className = "complete-btn";
-            let deleteBtn = li.querySelector('.delete-btn');
-            if (deleteBtn) {
-                deleteBtn.remove();
-            }
-        }
-        updateTaskInLocalStorage(task);
-    };
-    li.appendChild(completeBtn);
-
-    let editBtn = document.createElement('button');
-    editBtn.textContent = "Edit";
-    editBtn.className = "edit-btn";
-
-    editBtn.onclick = function() {
-        editTask(li, task);
-    };
-    li.appendChild(editBtn);
-
-    if (task.completed) {
-        createDeleteButton(li);
-    }
-
-    taskList.appendChild(li);
-}
-
-function createDeleteButton(taskItem) {
-    if (!taskItem.querySelector('.delete-btn')) {
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = "Delete";
-        deleteBtn.className = "delete-btn";
-        deleteBtn.onclick = function() {
-            deleteTask(taskItem);
-        };
-        taskItem.appendChild(deleteBtn);
+    try {
+        // Get existing tasks
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        
+        // Add new task
+        tasks.push({
+            text: taskInput.value.trim(),
+            dueDate: dueDateInput.value,
+            completed: false
+        });
+        
+        // Save to localStorage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        // Reload tasks
+        loadTasks();
+        
+        // Clear inputs
+        taskInput.value = '';
+        dueDateInput.value = '';
+    } catch (e) {
+        console.error('Error adding task:', e);
     }
 }
 
-function deleteTask(taskItem) {
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    taskItem.remove();
-    tasks = tasks.filter(task => task.text !== taskItem.querySelector('span').textContent);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function updateTaskInLocalStorage(task) {
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks = tasks.map(t => t.text === task.text ? task : t);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function editTask(taskItem, task) {
-    let taskTextElement = taskItem.querySelector('span');
-    let input = document.createElement('input');
-    input.type = 'text';
-    input.value = task.text;
-    taskItem.replaceChild(input, taskTextElement);
-
-    input.onblur = function() {
-        task.text = input.value;
-        updateTaskInLocalStorage(task);
-        taskItem.replaceChild(taskTextElement, input);
-        taskTextElement.textContent = task.text;
-
-        if (task.dueDate) {
-            let dueDateElement = taskTextElement.querySelector('small');
-            if (dueDateElement) {
-                dueDateElement.textContent = ` (Due: ${task.dueDate})`;
-            }
-        }
-    };
-
-    input.focus();
-}
-
-function checkIfOverdue(task, taskItem) {
-    let currentDate = new Date();
-    let dueDate = new Date(task.dueDate);
-    
-    if (dueDate && dueDate < currentDate && !task.completed) {
-        taskItem.classList.add('overdue');
+function deleteTask(index) {
+    try {
+        // Get current tasks from localStorage
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        
+        // Remove the task at the specified index
+        tasks.splice(index, 1);
+        
+        // Save back to localStorage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        // Reload the tasks to refresh the display
+        loadTasks();
+    } catch (e) {
+        console.error('Error deleting task:', e);
     }
 }
+
+function saveTasks() {
+    try {
+        const taskList = document.getElementById('taskList');
+        const tasks = [];
+        
+        // Gather all tasks
+        taskList.querySelectorAll('li').forEach(li => {
+            tasks.push({
+                text: li.querySelector('.task-text').textContent,
+                dueDate: li.querySelector('.due-date').textContent
+            });
+        });
+        
+        // Save to localStorage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    } catch (e) {
+        console.error('Error saving tasks:', e);
+    }
+}
+
